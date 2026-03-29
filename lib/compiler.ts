@@ -6,7 +6,8 @@ export interface FileEntry {
 
 export interface LanguageConfig {
   monacoId: string
-  pistonLang: string
+  jdoodleLang: string
+  jdoodleVersion: string
   label: string
   ext: string
   color: string
@@ -16,7 +17,8 @@ export interface LanguageConfig {
 export const LANGUAGE_MAP: Record<string, LanguageConfig> = {
   py: {
     monacoId: 'python',
-    pistonLang: 'python',
+    jdoodleLang: 'python3',
+    jdoodleVersion: '4',
     label: 'Python',
     ext: 'py',
     color: '#3b82f6',
@@ -24,7 +26,8 @@ export const LANGUAGE_MAP: Record<string, LanguageConfig> = {
   },
   js: {
     monacoId: 'javascript',
-    pistonLang: 'javascript',
+    jdoodleLang: 'nodejs',
+    jdoodleVersion: '4',
     label: 'JavaScript',
     ext: 'js',
     color: '#f59e0b',
@@ -32,7 +35,8 @@ export const LANGUAGE_MAP: Record<string, LanguageConfig> = {
   },
   ts: {
     monacoId: 'typescript',
-    pistonLang: 'typescript',
+    jdoodleLang: 'typescript',
+    jdoodleVersion: '1',
     label: 'TypeScript',
     ext: 'ts',
     color: '#5e6ad2',
@@ -40,7 +44,8 @@ export const LANGUAGE_MAP: Record<string, LanguageConfig> = {
   },
   java: {
     monacoId: 'java',
-    pistonLang: 'java',
+    jdoodleLang: 'java',
+    jdoodleVersion: '4',
     label: 'Java',
     ext: 'java',
     color: '#ef4444',
@@ -48,7 +53,8 @@ export const LANGUAGE_MAP: Record<string, LanguageConfig> = {
   },
   rs: {
     monacoId: 'rust',
-    pistonLang: 'rust',
+    jdoodleLang: 'rust',
+    jdoodleVersion: '4',
     label: 'Rust',
     ext: 'rs',
     color: '#f97316',
@@ -56,7 +62,8 @@ export const LANGUAGE_MAP: Record<string, LanguageConfig> = {
   },
   go: {
     monacoId: 'go',
-    pistonLang: 'go',
+    jdoodleLang: 'go',
+    jdoodleVersion: '4',
     label: 'Go',
     ext: 'go',
     color: '#22d3ee',
@@ -101,9 +108,9 @@ export async function runCode(filename: string, code: string): Promise<RunResult
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      language: lang.pistonLang,
-      version: '*',
-      files: [{ name: filename, content: code }],
+      script: code,
+      language: lang.jdoodleLang,
+      versionIndex: lang.jdoodleVersion,
     }),
   })
 
@@ -111,12 +118,15 @@ export async function runCode(filename: string, code: string): Promise<RunResult
 
   if (!res.ok) throw new Error(data.error ?? `Execution failed (${res.status})`)
 
-  // Piston returns compile + run stages; prefer run, fall back to compile
-  const run = data.run ?? {}
-  const compile = data.compile ?? {}
-  const stdout = run.stdout ?? ''
-  const stderr = (compile.stderr ?? '') + (run.stderr ?? '')
-  const exitCode: number = run.code ?? compile.code ?? 0
+  // JDoodle returns { output, statusCode, memory, cpuTime }
+  // output contains stdout + stderr combined; errors appear inline
+  const raw: string = data.output ?? ''
 
-  return { stdout, stderr, exitCode, durationMs: Date.now() - t0 }
+  // JDoodle doesn't separate stdout/stderr — put everything in stdout
+  return {
+    stdout: raw,
+    stderr: '',
+    exitCode: data.statusCode === 200 ? 0 : 1,
+    durationMs: Date.now() - t0,
+  }
 }

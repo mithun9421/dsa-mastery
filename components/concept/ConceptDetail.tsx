@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import type { Concept } from '@/lib/types'
 
 interface ConceptDetailProps {
