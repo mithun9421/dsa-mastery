@@ -29,9 +29,9 @@ export default async function ConceptPage({ params }: ConceptPageProps) {
           <div className="mb-6">
             <Link
               href={`/${tabId}/${categoryId}`}
-              className="inline-flex items-center gap-1 text-sm text-[#888] transition-colors hover:text-[#6366f1]"
+              className="inline-flex cursor-pointer items-center gap-1 text-xs text-[#444] transition-colors duration-150 hover:text-[#5e6ad2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5e6ad2] rounded-md"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-3.5 w-3.5" />
               {category.title}
             </Link>
           </div>

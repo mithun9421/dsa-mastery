@@ -18,25 +18,25 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6">
+    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mb-8">
         <Link
           href={`/${tabId}`}
-          className="mb-3 inline-flex items-center gap-1 text-sm text-[#888] transition-colors hover:text-[#6366f1]"
+          className="mb-4 inline-flex cursor-pointer items-center gap-1 text-xs text-[#444] transition-colors duration-150 hover:text-[#5e6ad2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5e6ad2] rounded-md"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-3.5 w-3.5" />
           {tab.title}
         </Link>
-        <h1 className="text-2xl font-bold text-[#f0f0f0]">{category.title}</h1>
-        <p className="mt-1 text-[#888]">{category.description}</p>
+        <h1 className="text-xl font-bold tracking-tight text-[#efefef]">{category.title}</h1>
+        <p className="mt-1.5 text-sm text-[#555]">{category.description}</p>
       </div>
 
       {category.concepts.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-[#333] p-12 text-center">
-          <p className="text-[#555]">Concepts coming soon.</p>
+        <div className="rounded-lg border border-dashed border-white/[0.08] p-16 text-center">
+          <p className="text-sm text-[#333]">Concepts coming soon.</p>
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2">
           {category.concepts.map((concept) => (
             <ConceptCard
               key={concept.id}
