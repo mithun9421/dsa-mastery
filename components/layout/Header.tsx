@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Brain, Layers, Network, Monitor, Server, Building2 } from 'lucide-react'
+import { Brain, Layers, Network, Monitor, Server, Building2, TerminalSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const tabs = [
@@ -12,6 +12,7 @@ const tabs = [
   { id: 'frontend', label: 'Frontend', icon: Monitor },
   { id: 'backend', label: 'Backend', icon: Server },
   { id: 'architecture', label: 'Architecture', icon: Building2 },
+  { id: 'compiler', label: 'Compiler', icon: TerminalSquare },
 ] as const
 
 export function Header() {

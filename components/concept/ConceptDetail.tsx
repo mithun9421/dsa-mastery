@@ -169,6 +169,7 @@ export function ConceptDetail({ concept, tabId, categoryId, prev, next }: Concep
                     margin: 0,
                     lineHeight: '1.6',
                   }}
+                  codeTagProps={{ style: { background: 'transparent' } }}
                 >
                   {example.code}
                 </SyntaxHighlighter>

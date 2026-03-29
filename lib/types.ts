@@ -1,5 +1,5 @@
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert'
-export type TabId = 'algorithms' | 'dsa' | 'system-design' | 'frontend' | 'backend' | 'architecture'
+export type TabId = 'algorithms' | 'dsa' | 'system-design' | 'frontend' | 'backend' | 'architecture' | 'compiler'
 
 export interface ComplexityAnalysis {
   best?: string
