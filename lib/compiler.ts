@@ -97,7 +97,7 @@ export async function runCode(filename: string, code: string): Promise<RunResult
 
   const t0 = Date.now()
 
-  const res = await fetch('https://emkc.org/api/v2/piston/execute', {
+  const res = await fetch('/api/run', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -107,9 +107,9 @@ export async function runCode(filename: string, code: string): Promise<RunResult
     }),
   })
 
-  if (!res.ok) throw new Error(`Execution API error: ${res.status}`)
-
   const data = await res.json()
+
+  if (!res.ok) throw new Error(data.error ?? `Execution failed (${res.status})`)
 
   // Piston returns compile + run stages; prefer run, fall back to compile
   const run = data.run ?? {}
